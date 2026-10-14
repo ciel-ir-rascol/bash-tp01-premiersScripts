@@ -81,21 +81,21 @@ jobs:
 
         if [ "${{ steps.ex1.outcome }}" == "success" ]; then
           echo "✅ Exercice 1 : RÉUSSI"
-          ((success_count++))
+          success_count=$((success_count + 1))
         else
           echo "❌ Exercice 1 : ÉCHOUÉ"
         fi
 
         if [ "${{ steps.ex2.outcome }}" == "success" ]; then
           echo "✅ Exercice 2 : RÉUSSI"
-          ((success_count++))
+          success_count=$((success_count + 1))
         else
           echo "❌ Exercice 2 : ÉCHOUÉ"
         fi
 
         if [ "${{ steps.ex3.outcome }}" == "success" ]; then
           echo "✅ Exercice 3 : RÉUSSI"
-          ((success_count++))
+          success_count=$((success_count + 1))
         else
           echo "❌ Exercice 3 : ÉCHOUÉ"
         fi

@@ -114,25 +114,22 @@ fi
 # Test 5 : Vérifier la conversion en minuscules
 echo ""
 echo "Test 5 : Vérification de la conversion en minuscules..."
-LOWERCASE_COUNT=$(ls test_temp/*.txt 2>/dev/null | grep -c "[a-z]")
-UPPERCASE_COUNT=$(ls test_temp/*.txt 2>/dev/null | grep -c "[A-Z]")
+HAS_UPPERCASE=false
+TXT_FILES_FOUND=false
 
-if [ -f test_temp/*.txt ] && [ $LOWERCASE_COUNT -gt 0 ]; then
-    # Vérifier qu'il n'y a plus de majuscules dans les noms de fichiers .txt
-    HAS_UPPERCASE=false
-    for file in test_temp/*.txt; do
+for file in test_temp/*.txt; do
+    if [ -f "$file" ] 2>/dev/null; then
+        TXT_FILES_FOUND=true
         basename_file=$(basename "$file")
         if echo "$basename_file" | grep -q "[A-Z]"; then
             HAS_UPPERCASE=true
             break
         fi
-    done
-
-    if [ "$HAS_UPPERCASE" = false ]; then
-        print_test_result "Les noms de fichiers .txt sont en minuscules" "PASS"
-    else
-        print_test_result "Les noms de fichiers .txt sont en minuscules" "FAIL"
     fi
+done 2>/dev/null
+
+if [ "$TXT_FILES_FOUND" = true ] && [ "$HAS_UPPERCASE" = false ]; then
+    print_test_result "Les noms de fichiers .txt sont en minuscules" "PASS"
 else
     print_test_result "Les noms de fichiers .txt sont en minuscules" "FAIL"
 fi
@@ -141,12 +138,12 @@ fi
 echo ""
 echo "Test 6 : Vérification du remplacement des espaces..."
 HAS_SPACES=false
-for file in test_temp/*.txt 2>/dev/null; do
+for file in test_temp/*.txt; do
     if [[ -f "$file" && $(basename "$file") == *" "* ]]; then
         HAS_SPACES=true
         break
     fi
-done
+done 2>/dev/null
 
 if [ "$HAS_SPACES" = false ]; then
     print_test_result "Les espaces sont remplacés par des underscores" "PASS"
@@ -159,12 +156,12 @@ echo ""
 echo "Test 7 : Vérification du préfixe avec la date..."
 TODAY=$(date +%Y%m%d)
 HAS_DATE_PREFIX=false
-for file in test_temp/*.txt 2>/dev/null; do
+for file in test_temp/*.txt; do
     if [[ -f "$file" && $(basename "$file") == backup_${TODAY}_* ]]; then
         HAS_DATE_PREFIX=true
         break
     fi
-done
+done 2>/dev/null
 
 if [ "$HAS_DATE_PREFIX" = true ]; then
     print_test_result "Le préfixe avec la date est ajouté (backup_AAAAMMJJ_)" "PASS"
