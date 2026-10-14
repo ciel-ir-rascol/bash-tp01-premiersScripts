@@ -266,7 +266,7 @@ Renommage en cours...
 
 Résumé :
 - Fichiers traités : 7
-- Fichiers ignorés : 3 (image.jpg, photo.png, script.sh)
+- Fichiers ignorés : 4 (README.md, image.jpg, photo.png, script.sh)
 - Opération terminée avec succès !
 ```
 
